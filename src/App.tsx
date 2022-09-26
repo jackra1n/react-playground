@@ -1,7 +1,7 @@
-import React from "react";
+import { useState, useEffect } from 'react'
 import "./App.css";
 
-const digitecFetchUrl = "https://cors-anywhere.herokuapp.com/https://www.digitec.ch/api/graphql/get-social-shoppings";
+const digitecFetchUrl = "";
 
 const headersList = {
   "Accept": "*/*",
@@ -46,55 +46,48 @@ const gqlBody = {
 }
 const bodyContent =  JSON.stringify(gqlBody);
 
-export default class HomePageGreeting extends React.Component {
+function HomePageGreeting() {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      products: [],
-      DataIsLoaded: false
-    };
-  }
+  const [state, setState] = useState({products: [], dataIsLoaded: false})
   
-  componentDidMount() {
-    console.log("fetching data");
-    fetch(digitecFetchUrl, { 
-      method: "POST",
-      body: bodyContent,
-      headers: headersList
-    })
-    .then(response => response.json())
-    .then(data => {
-      this.setState({
-        products: data.data.socialShopping.items,
-        DataIsLoaded: true
-      });
-    })
-  }
-  
-  render() {
-    const { DataIsLoaded, products } = this.state;
-    if (!DataIsLoaded) {
-      return <div>Loading...</div>;
+  useEffect(() => {
+    if (!state.dataIsLoaded) {
+      console.log("fetching data");
+      fetch(digitecFetchUrl, { 
+        method: "POST",
+        body: bodyContent,
+        headers: headersList
+      })
+      .then(response => response.json())
+      .then(data => {
+        setState({
+          products: data.data.socialShopping.items,
+          dataIsLoaded: true
+        });
+      })
     }
-    return (
-      <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <p>
-          {products.map((item) => (
-            <div>
-              <p><b>{item.userName}</b> bought <b>{item.fullProductName}</b> from <b>{item.brandName}</b></p>
-            </div>
-          ))}
-        </p>
-      </div>
+  })
+  
+  if (!state.dataIsLoaded) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div className="App">
+    <div>
+      <a href="https://vitejs.dev" target="_blank">
+        <img src="/vite.svg" className="logo" alt="Vite logo" />
+      </a>
     </div>
-  )};
+    <h1>Vite + React</h1>
+    <div className="card">
+      {state.products.map((item) => (
+        <div>
+          <p><b>{item.userName}</b> bought <b>{item.fullProductName}</b> from <b>{item.brandName}</b></p>
+        </div>
+      ))}
+    </div>
+  </div>
+  )
 }
+
+export default HomePageGreeting
