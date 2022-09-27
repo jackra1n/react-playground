@@ -50,21 +50,22 @@ function LiveShopping() {
   const [state, setState] = useState({ products: [], dataIsLoaded: false })
 
   useEffect(() => {
-    if (!state.dataIsLoaded) {
-      console.log("fetching data from: " + digitecFetchUrl);
-      fetch(digitecFetchUrl, {
-        method: "POST",
-        body: bodyContent,
-        headers: headersList
-      })
-        .then(response => response.json())
-        .then(data => {
-          setState({
-            products: data.data.socialShopping.items,
-            dataIsLoaded: true
-          });
-        })
+    if (state.dataIsLoaded) {
+      return 
     }
+    console.log("fetching data from: " + digitecFetchUrl);
+    fetch(digitecFetchUrl, {
+      method: "POST",
+      body: bodyContent,
+      headers: headersList
+    })
+    .then(response => response.json())
+    .then(data => {
+      setState({
+        products: data.data.socialShopping.items,
+        dataIsLoaded: true
+      });
+    })
   })
 
   if (!state.dataIsLoaded) {
