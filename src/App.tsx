@@ -1,11 +1,14 @@
-import "./App.css";
+import Layout from "./layout/Layout"
 
 const MainPage = (props: any) => {
   return (
-    <div className="App">
-      <h1>Bufferoverflow</h1>
-      {props.children}
-    </div>
+    <>
+      <Layout/>
+      <div className="App">
+        <h1>Library</h1>
+        {props.children}
+      </div>
+    </>
   )
 }
 
