@@ -1,11 +1,11 @@
-import Layout from "./layout/Layout"
+import Sidebar from "./layout/Sidebar"
 
 const MainPage = (props: any) => {
   return (
     <>
-      <Layout/>
+      <Sidebar/>
       <div className="App">
-        <h1>Library</h1>
+        <h1 className="title">Library</h1>
         {props.children}
       </div>
     </>
